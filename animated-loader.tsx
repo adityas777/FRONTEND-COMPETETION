@@ -25,6 +25,31 @@ const galaxySlides = [
   },
 ]
 
+// Dashboard images data
+const dashboardImages = [
+  {
+    id: 1,
+    src: "/stats-dashboard.png",
+    title: "Stats Dashboard",
+    description: "Real-time analytics and metrics",
+    position: "top-right",
+  },
+  {
+    id: 2,
+    src: "/brand-kits.png",
+    title: "Brand Kits",
+    description: "Brand management and assets",
+    position: "bottom-left",
+  },
+  {
+    id: 3,
+    src: "/carbon-emissions.png",
+    title: "Carbon Emissions",
+    description: "Environmental impact tracking",
+    position: "bottom-right",
+  },
+]
+
 export default function Component() {
   const [progress, setProgress] = useState(0)
   const [isComplete, setIsComplete] = useState(false)
@@ -129,14 +154,14 @@ export default function Component() {
     }
   }
 
-  // Handle explosion button click
+  // Handle explosion button click - SMOOTHER TRANSITION
   const handleExplosionClick = () => {
     if (!showExplosionBlast && !showRobotSpline) {
       setShowExplosionBlast(true)
       setTimeout(() => {
         setShowExplosionBlast(false)
         setShowRobotSpline(true)
-      }, 3000) // Longer duration for bigger explosion
+      }, 2800) // Slightly longer for smoother transition
     }
   }
 
@@ -151,8 +176,26 @@ export default function Component() {
     window.scrollTo({ top: 0, behavior: "smooth" })
   }
 
+  // Updated to open external URL
+  const handleImageClick = () => {
+    window.open("https://v0-vercel-ai-project-jet.vercel.app/", "_blank")
+  }
+
+  const getImagePosition = (position: string) => {
+    switch (position) {
+      case "top-right":
+        return "top-8 right-8"
+      case "bottom-left":
+        return "bottom-8 left-8"
+      case "bottom-right":
+        return "bottom-8 right-8"
+      default:
+        return "top-8 right-8"
+    }
+  }
+
   return (
-    <div className="bg-black relative">
+    <div className="bg-black relative" style={{ scrollBehavior: "smooth" }}>
       {/* First Blast Animation Overlay */}
       <AnimatePresence>
         {showBlast && (
@@ -243,37 +286,37 @@ export default function Component() {
         )}
       </AnimatePresence>
 
-      {/* Explosion Blast Animation Overlay - BIGGER AND MORE INTENSE */}
+      {/* SMOOTHER Explosion Blast Animation Overlay */}
       <AnimatePresence>
         {showExplosionBlast && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            exit={{ opacity: 0, transition: { duration: 0.8, ease: "easeInOut" } }}
             className="fixed inset-0 z-50 flex items-center justify-center"
             style={{
               background: "radial-gradient(circle, #ffff00 0%, #ff4500 15%, #ff00ff 30%, #00ffff 50%, #000000 80%)",
             }}
           >
-            {/* MASSIVE Central blast point */}
+            {/* MASSIVE Central blast point with smoother animation */}
             <motion.div
               initial={{ scale: 0, opacity: 1 }}
               animate={{ scale: 150, opacity: 0 }}
-              transition={{ duration: 3, ease: "easeOut" }}
+              transition={{ duration: 2.8, ease: [0.25, 0.46, 0.45, 0.94] }}
               className="absolute w-16 h-16 rounded-full bg-yellow-300"
               style={{ boxShadow: "0 0 500px #ffff00, 0 0 1000px #ff4500" }}
             />
 
-            {/* Multiple MASSIVE blast waves */}
+            {/* Multiple MASSIVE blast waves with smoother timing */}
             {[...Array(5)].map((_, waveIndex) => (
               <motion.div
                 key={`explosion-wave-${waveIndex}`}
                 initial={{ scale: 0, opacity: 1 }}
                 animate={{ scale: 120, opacity: 0 }}
                 transition={{
-                  duration: 3,
-                  delay: waveIndex * 0.15,
-                  ease: "easeOut",
+                  duration: 2.8,
+                  delay: waveIndex * 0.12,
+                  ease: [0.25, 0.46, 0.45, 0.94],
                 }}
                 className="absolute w-20 h-20 rounded-full"
                 style={{
@@ -290,7 +333,7 @@ export default function Component() {
               />
             ))}
 
-            {/* MASSIVE blast particles */}
+            {/* MASSIVE blast particles with smoother motion */}
             {[...Array(50)].map((_, i) => (
               <motion.div
                 key={`explosion-particle-${i}`}
@@ -308,9 +351,9 @@ export default function Component() {
                   rotate: Math.random() * 720,
                 }}
                 transition={{
-                  duration: 3,
-                  delay: i * 0.02,
-                  ease: "easeOut",
+                  duration: 2.8,
+                  delay: i * 0.015,
+                  ease: [0.25, 0.46, 0.45, 0.94],
                 }}
                 className="absolute w-12 h-12 rounded-full"
                 style={{
@@ -320,16 +363,16 @@ export default function Component() {
               />
             ))}
 
-            {/* Multiple shockwave rings */}
+            {/* Multiple shockwave rings with smoother animation */}
             {[...Array(8)].map((_, i) => (
               <motion.div
                 key={`explosion-ring-${i}`}
                 initial={{ scale: 0, opacity: 0.9 }}
                 animate={{ scale: 80, opacity: 0 }}
                 transition={{
-                  duration: 3,
-                  delay: i * 0.1,
-                  ease: "easeOut",
+                  duration: 2.8,
+                  delay: i * 0.08,
+                  ease: [0.25, 0.46, 0.45, 0.94],
                 }}
                 className="absolute border-8 rounded-full"
                 style={{
@@ -341,19 +384,28 @@ export default function Component() {
               />
             ))}
 
-            {/* Multiple flash effects */}
+            {/* Smoother flash effects */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: [0, 1, 0, 1, 0, 0.5, 0] }}
-              transition={{ duration: 2, times: [0, 0.1, 0.2, 0.4, 0.5, 0.8, 1] }}
+              transition={{
+                duration: 2.2,
+                times: [0, 0.1, 0.2, 0.4, 0.5, 0.8, 1],
+                ease: [0.25, 0.46, 0.45, 0.94],
+              }}
               className="absolute inset-0 bg-yellow-300"
             />
 
-            {/* EXPLOSION text effect */}
+            {/* EXPLOSION text effect with smoother animation */}
             <motion.div
               initial={{ opacity: 0, scale: 0 }}
               animate={{ opacity: [0, 1, 1, 0], scale: [0, 3, 5, 8] }}
-              transition={{ duration: 2.5, delay: 0.5, times: [0, 0.3, 0.7, 1] }}
+              transition={{
+                duration: 2.3,
+                delay: 0.4,
+                times: [0, 0.3, 0.7, 1],
+                ease: [0.25, 0.46, 0.45, 0.94],
+              }}
               className="absolute text-8xl font-bold text-white z-10"
               style={{
                 textShadow: "0 0 100px #ffff00, 0 0 200px #ff4500",
@@ -363,11 +415,15 @@ export default function Component() {
               💥 EXPLOSION! 💥
             </motion.div>
 
-            {/* Secondary explosion text */}
+            {/* Secondary explosion text with smoother timing */}
             <motion.div
               initial={{ opacity: 0, scale: 0 }}
               animate={{ opacity: [0, 1, 0], scale: [0, 2, 6] }}
-              transition={{ duration: 2, delay: 1.5 }}
+              transition={{
+                duration: 1.8,
+                delay: 1.2,
+                ease: [0.25, 0.46, 0.45, 0.94],
+              }}
               className="absolute text-6xl font-bold text-yellow-300 z-10"
               style={{
                 textShadow: "0 0 80px #ff4500, 0 0 160px #ffff00",
@@ -516,7 +572,7 @@ export default function Component() {
         )}
       </AnimatePresence>
 
-      {/* Robot Spline Page */}
+      {/* Robot Spline Page with Dashboard Images */}
       <AnimatePresence>
         {showRobotSpline && (
           <motion.div
@@ -560,49 +616,55 @@ export default function Component() {
                 </div>
               </motion.div>
 
-              {/* Scroll instruction after loading */}
-              <motion.div
-                initial={{ opacity: 0, y: 50 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 3, duration: 1 }}
-                className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-50 text-center"
-              >
-                <div className="bg-black/30 backdrop-blur-sm rounded-2xl p-6 border border-cyan-500/30">
-                  <motion.h3
-                    className="text-2xl font-bold text-white mb-3"
-                    style={{
-                      textShadow: "0 0 20px #00ffff, 0 0 40px #ff00ff",
-                    }}
-                    animate={{
-                      textShadow: [
-                        "0 0 20px #00ffff, 0 0 40px #ff00ff",
-                        "0 0 30px #ff00ff, 0 0 60px #00ffff",
-                        "0 0 20px #00ffff, 0 0 40px #ff00ff",
-                      ],
-                    }}
-                    transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
-                  >
-                    ⚡ SCROLL DOWN TILL BOTTOM TO SEE THE EXPLOSION ⚡
-                  </motion.h3>
-                  <motion.p
-                    className="text-cyan-300 text-lg mb-4"
-                    style={{
-                      textShadow: "0 0 15px #00ffff",
-                    }}
-                  >
-                    Keep scrolling for the ultimate blast experience!
-                  </motion.p>
+              {/* Dashboard Images positioned around the spline */}
+              {dashboardImages.map((image, index) => (
+                <motion.div
+                  key={image.id}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 2 + index * 0.3, duration: 0.8 }}
+                  className={`absolute ${getImagePosition(image.position)} z-50`}
+                >
                   <motion.div
-                    animate={{ y: [0, 10, 0] }}
-                    transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
-                    className="text-4xl"
+                    whileHover={{
+                      scale: 1.05,
+                      boxShadow: "0 0 30px rgba(0,255,255,0.5), 0 0 60px rgba(255,0,255,0.3)",
+                    }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={handleImageClick}
+                    className="w-48 h-32 bg-black/30 backdrop-blur-sm rounded-2xl overflow-hidden border border-cyan-500/30 cursor-pointer group"
                   >
-                    ↓ 💥 ↓
-                  </motion.div>
-                </div>
-              </motion.div>
+                    <div className="relative h-full">
+                      <img
+                        src={image.src || "/placeholder.svg"}
+                        alt={image.title}
+                        className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
 
-              {/* Enhanced restart button */}
+                      {/* Hover overlay */}
+                      <motion.div
+                        initial={{ opacity: 0 }}
+                        whileHover={{ opacity: 1 }}
+                        className="absolute inset-0 bg-black/50 flex items-center justify-center"
+                      >
+                        <div className="text-center text-white">
+                          <div className="text-sm font-bold mb-1">Click to open dashboard</div>
+                          <div className="text-xs text-cyan-300">{image.title}</div>
+                        </div>
+                      </motion.div>
+
+                      {/* Title overlay */}
+                      <div className="absolute bottom-2 left-2 right-2">
+                        <h4 className="text-white text-xs font-semibold truncate">{image.title}</h4>
+                        <p className="text-cyan-300 text-xs opacity-80 truncate">{image.description}</p>
+                      </div>
+                    </div>
+                  </motion.div>
+                </motion.div>
+              ))}
+
+              {/* Enhanced restart button - moved to top center to avoid conflict */}
               <motion.button
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -613,7 +675,7 @@ export default function Component() {
                 }}
                 whileTap={{ scale: 0.9 }}
                 onClick={handleRestart}
-                className="absolute bottom-8 right-8 px-8 py-4 rounded-3xl font-bold text-lg text-black z-50 relative overflow-hidden"
+                className="absolute top-8 left-1/2 transform -translate-x-1/2 px-8 py-4 rounded-3xl font-bold text-lg text-black z-50 relative overflow-hidden"
                 style={{
                   background: "linear-gradient(45deg, #00ffff, #ff00ff)",
                   boxShadow: "0 0 40px #00ffff",
@@ -627,7 +689,7 @@ export default function Component() {
       </AnimatePresence>
 
       {/* Optimized Background */}
-      <div className="fixed inset-0 z-0">
+      <div className="fixed inset-0 z-1">
         <div
           className="absolute inset-0"
           style={{
@@ -664,6 +726,20 @@ export default function Component() {
           />
         ))}
       </div>
+
+      {/* Particle Nebula Spline Background - Only show on main content */}
+      {showContent && !showSpline && !showRobotSpline && (
+        <div className="fixed inset-0 z-5">
+          <iframe
+            src="https://my.spline.design/particlenebula-DVXLglRttXue7VlJ2jslaLU8/"
+            frameBorder="0"
+            width="100%"
+            height="100%"
+            className="w-full h-full pointer-events-none"
+            style={{ opacity: 0.3 }}
+          />
+        </div>
+      )}
 
       <AnimatePresence mode="wait">
         {!showContent ? (
@@ -831,8 +907,15 @@ export default function Component() {
             animate={{ opacity: 1 }}
             transition={{ duration: 1.5 }}
             className="relative z-10"
-            style={{ display: showSpline || showRobotSpline ? "none" : "block" }}
+            style={{
+              display: showSpline || showRobotSpline ? "none" : "block",
+              willChange: "transform",
+              backfaceVisibility: "hidden",
+              perspective: 1000,
+            }}
           >
+            {/* Instructional Text - Top Right */}
+
             {/* Hero Section */}
             <motion.section
               initial={{ y: 30, opacity: 0 }}
@@ -884,8 +967,9 @@ export default function Component() {
                     <motion.img
                       src="/galaxy-1.jpeg"
                       alt="Galaxy Portal"
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover brightness-75 contrast-125 saturate-120"
                       loading="eager"
+                      style={{ willChange: "transform" }}
                     />
                   </motion.div>
                 </motion.div>
@@ -921,7 +1005,10 @@ export default function Component() {
                   🚀 ACTIVATE PORTAL (Test)
                 </motion.button>
 
-                <motion.div style={{ x: horizontalX }} className="flex h-full items-center will-change-transform">
+                <motion.div
+                  style={{ x: horizontalX, willChange: "transform" }}
+                  className="flex h-full items-center will-change-transform"
+                >
                   {galaxySlides.map((slide, index) => {
                     const imageProgress = index / (totalImages - 1)
                     const isCurrentImage = Math.abs(horizontalScrollY - imageProgress) < 0.1
@@ -954,21 +1041,24 @@ export default function Component() {
                             boxShadow: isCurrentImage
                               ? "0 0 50px rgba(0,255,255,0.6), 0 0 100px rgba(255,0,255,0.4)"
                               : "0 0 30px rgba(0,255,255,0.3), 0 0 60px rgba(255,0,255,0.2)",
+                            willChange: "transform",
                           }}
                         >
+                          {/* Darker overlay for better visibility */}
                           <motion.div
-                            className="absolute inset-0 z-10 bg-gradient-to-t from-black/60 via-transparent to-transparent"
-                            whileHover={{ opacity: 0.2 }}
+                            className="absolute inset-0 z-10 bg-gradient-to-t from-black/80 via-black/20 to-black/40"
+                            whileHover={{ opacity: 0.3 }}
                             transition={{ duration: 0.3 }}
                           />
 
                           <motion.img
                             src={slide.src}
                             alt={slide.title}
-                            className="w-full h-full object-cover"
+                            className="w-full h-full object-cover brightness-90 contrast-110 saturate-110"
                             loading="lazy"
                             whileHover={{ scale: 1.1 }}
                             transition={{ duration: 0.6, ease: "easeOut" }}
+                            style={{ willChange: "transform" }}
                           />
 
                           {isCurrentImage &&
