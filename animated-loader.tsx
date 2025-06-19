@@ -727,20 +727,6 @@ export default function Component() {
         ))}
       </div>
 
-      {/* Particle Nebula Spline Background - Only show on main content */}
-      {showContent && !showSpline && !showRobotSpline && (
-        <div className="fixed inset-0 z-5">
-          <iframe
-            src="https://my.spline.design/particlenebula-DVXLglRttXue7VlJ2jslaLU8/"
-            frameBorder="0"
-            width="100%"
-            height="100%"
-            className="w-full h-full pointer-events-none"
-            style={{ opacity: 0.3 }}
-          />
-        </div>
-      )}
-
       <AnimatePresence mode="wait">
         {!showContent ? (
           <motion.div
